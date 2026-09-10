@@ -68,6 +68,7 @@ import {
   ORDER_FIELDS,
   moveTopics,
   renameTopics,
+  renameScope,
   addUsage,
   getUsage,
   stampActiveMinutes,
@@ -6095,6 +6096,9 @@ async function runCurriculumEdits(program, ops, { dryRun = false } = {}) {
   const writes = [];
   const doMove = (ids, to) => writes.push(() => moveTopics(ids, to));
   const doRename = (items) => writes.push(() => renameTopics(items));
+  // A whole COURSE or LESSON carries its transcript, decks and guides with it —
+  // `moveTopics` would write the rows and orphan all three. See renameScope.
+  const doScope = (from, to) => writes.push(() => renameScope({ program, ...from }, to));
   const doDelete = (ids) => writes.push(async () => { for (const id of ids) await deleteTopic(id); });
   const doReorder = (items) => { if (items.length) writes.push(() => setTopicOrders(items)); };
   const doAdd = (rows) => writes.push(() => upsertTopics(rows));
@@ -6116,7 +6120,7 @@ async function runCurriculumEdits(program, ops, { dryRun = false } = {}) {
           if (!newName) throw new Error('rename_course needs a newName');
           const courseName = rows[0].course; const ids = rows.map((r) => r.id);
           rows.forEach((r) => { r.course = newName; });
-          if (!dryRun) doMove(ids, { course: newName });
+          if (!dryRun) doScope({ track, course: courseName }, { course: newName });
           description = `Rename course “${courseName}” → “${newName}” (${ids.length} sub-lesson${ids.length === 1 ? '' : 's'})`;
           break;
         }
@@ -6128,7 +6132,7 @@ async function runCurriculumEdits(program, ops, { dryRun = false } = {}) {
           if (!newName) throw new Error('rename_lesson needs a newName');
           const lessonName = rows[0].lesson; const ids = rows.map((r) => r.id);
           rows.forEach((r) => { r.lesson = newName; });
-          if (!dryRun) doMove(ids, { lesson: newName });
+          if (!dryRun) doScope({ track, course: rows[0].course, lesson: lessonName }, { lesson: newName });
           description = `Rename lesson “${lessonName}” → “${newName}” (${ids.length} sub-lesson${ids.length === 1 ? '' : 's'})`;
           break;
         }
@@ -6165,7 +6169,10 @@ async function runCurriculumEdits(program, ops, { dryRun = false } = {}) {
           const tailRank = rowsIn(toTrack, toCourse).reduce(
             (m, r) => (Number.isFinite(r.lessonOrder) && r.lessonOrder > m ? r.lessonOrder : m), -1) + 1;
           rows.forEach((r) => { r.track = toTrack; r.course = toCourse; r.lessonOrder = tailRank; });
-          if (!dryRun) { doMove(ids, { track: toTrack, course: toCourse }); doReorder(ids.map((id) => ({ id, lessonOrder: tailRank }))); }
+          if (!dryRun) {
+            doScope({ track, course: fromCourse, lesson: lessonName }, { track: toTrack, course: toCourse });
+            doReorder(ids.map((id) => ({ id, lessonOrder: tailRank })));
+          }
           description = `Move lesson “${lessonName}” from “${fromCourse}” → “${toCourse}”${key(toTrack) !== key(track) ? ` (track “${toTrack}”)` : ''} (${ids.length} sub-lesson${ids.length === 1 ? '' : 's'})`;
           break;
         }
