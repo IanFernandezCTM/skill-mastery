@@ -1,0 +1,197 @@
+{
+  "note": "Reading programs: one shape. COURSE is always a theme; LESSON is always one book, or one PART of a long book named with the book; SUB-LESSON is the key point stated as a claim. The Charisma Myth and Do Hard Things had been shaped the other way round by the corpus planner (course = the book, lessons = concept clusters), which is why neither could ever build a book deck - buildBookDeck is lesson-scoped. Claim names are grounded in each source's own text; the Spiritual ones in their existing book-deck card backs.",
+  "books": [
+    {
+      "program": "philosophy",
+      "track": "Personal Development",
+      "course": "Charisma and Social Presence",
+      "book": "The Charisma Myth by Olivia Fox Cabane",
+      "parts": [
+        {
+          "lesson": "Charisma as Trainable Behavior",
+          "rename": "The Charisma Myth — Charisma as Learned Behavior",
+          "points": {
+            "Charisma as learned nonverbal behavior": "Charisma is learned behavior, not a birth gift — Steve Jobs practiced into it",
+            "Indirect body language control via mental state": "You cannot fake body language, so change the mental state driving it",
+            "Placebo-like belief effects": "An internal charismatic state works like a placebo: belief produces the effect",
+            "Vivid imagination as reality": "The brain cannot tell imagination from reality, so what you vividly imagine lands"
+          }
+        },
+        {
+          "lesson": "Presence and Moment-to-Moment Attention",
+          "rename": "The Charisma Myth — Presence",
+          "points": {
+            "Presence and undivided attention": "Presence is the main charisma: being completely with the person in front of you",
+            "Mind-wandering prevalence and cost": "We mind-wander half our waking hours, and the other person feels it",
+            "Attention as a charismatic signal": "Five minutes of undivided attention is enough to bond with a stranger"
+          }
+        },
+        {
+          "lesson": "Power-Warmth Balance and Style Selection",
+          "rename": "The Charisma Myth — Power, Warmth and Style",
+          "points": {
+            "Power-warmth combination": "Charisma is power plus warmth, and either one alone falls flat",
+            "Warmth-plus-power advantage": "Gladstone made her feel he was clever; Disraeli made her feel she was",
+            "Four charisma styles": "There are four charisma styles: focus, visionary, kindness and authority",
+            "Style fit to personality goals and situation": "Pick a style that fits your own personality: Kerry dumbed his down and lost"
+          }
+        },
+        {
+          "lesson": "First Impressions and Rapport",
+          "rename": "The Charisma Myth — First Impressions",
+          "points": {
+            "First impression formation and persistence": "You get one first impression and it colours the whole relationship",
+            "Confirmation over revision": "People work to confirm a first impression rather than revise it",
+            "Similarity and mirroring in rapport": "People trust those who seem like them, so mirror their manner and language",
+            "Dress and language alignment": "Dress and speak like the room: the black suit at a casual firm cost her"
+          }
+        },
+        {
+          "lesson": "Clearing Internal Obstacles Before Interaction",
+          "rename": "The Charisma Myth — Clearing Internal Obstacles",
+          "points": {
+            "Dedramatizing negative emotions": "Dedramatize: this is not serious, and plenty of others have felt it too",
+            "Destigmatizing shame": "Shame is a normal part of being human, not evidence that you are flawed",
+            "Neutralizing self-judgment": "Your mind does not report reality accurately, so a negative thought is not a fact",
+            "Prevent-recognize-remedy discomfort protocol": "Handle discomfort in three moves: prevent it, recognize it, remedy or explain it"
+          }
+        },
+        {
+          "lesson": "Pre-Performance Mental Rehearsal",
+          "rename": "The Charisma Myth — Mental Rehearsal",
+          "points": {
+            "State generation before body language": "Generate the inner state first and the charismatic body language follows",
+            "Visualization for confident states": "Visualize the win in vivid detail and your body arrives already confident",
+            "Anxiety reduction through outcome listing": "Listing every outcome, disaster included, drains the anxiety out of them",
+            "Reality-rewriting by alternative outcomes": "Rewriting reality works on the brain's own confusion of imagined and real"
+          }
+        }
+      ]
+    },
+    {
+      "program": "philosophy",
+      "track": "Personal Development",
+      "course": "Mental Toughness and Self-Regulation",
+      "book": "Do Hard Things by Steve Magness",
+      "parts": [
+        {
+          "lesson": "Calibrated Goals and Accurate Self-Perception",
+          "rename": "Do Hard Things — Ditch the Facade",
+          "points": {
+            "Expectation-reality calibration": "Toughness is calibration, not confidence: the overconfident readers quit first",
+            "Doubt as calibration data": "Doubt is data: it signals your expectations have outrun your capability",
+            "Authentic versus overconfident goals": "Goals set to impress other people do not survive contact with difficulty",
+            "Raising the floor goal setting": "Raise the floor instead of lowering the bar: set a target you will beat"
+          }
+        },
+        {
+          "lesson": "Reading and Reframing Body Signals",
+          "rename": "Do Hard Things — Listening to Your Body",
+          "points": {
+            "Interoceptive awareness": "Interoception, the skill of reading your own body, is what toughness rests on",
+            "Signal interpretation under pressure": "Stockbrokers who read their own feelings out-earned and outlasted the stoics",
+            "Cognitive reappraisal of arousal": "Emotions are the brain's first line of defense, not a weakness to suppress",
+            "Excitement-versus-anxiety labeling": "Sweaty palms are excitement or anxiety depending only on which you call it"
+          }
+        },
+        {
+          "lesson": "Creating Space Between Impulse and Action",
+          "rename": "Do Hard Things — Space Between Stimulus and Response",
+          "points": {
+            "Stimulus-response spacing through mindfulness": "Meditators felt the same pain three times less unpleasant, by making space",
+            "Pain intensity versus unpleasantness": "Intensity and unpleasantness are separate, and you can change the second",
+            "Calm self-talk protocol": "A calm inner conversation beats push-through-it, which doubles the pain",
+            "Reflexive escalation reduction": "Telling yourself to ignore pain makes it louder — the double-down effect"
+          }
+        },
+        {
+          "lesson": "Working with Inner Voices Under Stress",
+          "rename": "Do Hard Things — Your Inner Voices",
+          "points": {
+            "Temporal distancing time-out": "Ask how this will feel in ten years and the stimulus shrinks to size",
+            "Hearing destructive voices without obeying them": "Do not silence the destructive voice; ignoring it only makes it louder",
+            "Inner-voice role separation": "Callahan survived by splitting into a desperate crewman and a stoic captain",
+            "Role separation during inner conflict": "Let the desperate voice vent, then let the rational voice decide"
+          }
+        },
+        {
+          "lesson": "Sustaining Effort Through Motivation and Meaning",
+          "rename": "Do Hard Things — Drive and Purpose",
+          "points": {
+            "Intrinsic versus extrinsic motivation": "Pay people to build and they stop when the money stops: intrinsic motivation lasts",
+            "Purpose as endurance fuel": "Purpose is what lets you empty the tank further than other people can",
+            "Post-traumatic growth and purpose": "The POWs held longest grew the most: shattered assumptions can reveal purpose"
+          }
+        }
+      ]
+    },
+    {
+      "program": "spiritual",
+      "track": "Christian Apologetics",
+      "course": "Mere Christianity: Faith and Morality",
+      "courseRename": "Faith and Morality",
+      "courseOrder": 0,
+      "book": "Mere Christianity by C.S. Lewis",
+      "parts": [
+        {
+          "lesson": "The Moral Law and the Case for God",
+          "rename": "Mere Christianity by C.S. Lewis",
+          "lessonOrder": 0,
+          "points": {
+            "The universal moral law": "Nobody argues the rule is wrong, only that they are the exception",
+            "Critiquing cultural relativism": "Moral truths are like multiplication tables: taught, but not invented",
+            "Moral law as evidence for theism": "A chance universe cannot care whether you are fair, but the moral law does",
+            "Limits of scientific explanation": "Science describes how the universe behaves, never why it exists at all",
+            "Lewis's trilemma: Lord, liar, or lunatic": "Lord, liar or lunatic — great moral teacher is not on the menu",
+            "Historical context of Lewis's wartime broadcasts": "Lewis broadcast common decency to Britain in 1942, while the bombs fell"
+          }
+        }
+      ]
+    },
+    {
+      "program": "spiritual",
+      "track": "Christian Apologetics",
+      "course": "The Reliability and Canon of Scripture",
+      "courseOrder": 1,
+      "book": "The Historical Reliability of the Bible",
+      "parts": [
+        {
+          "lesson": "Introduction to Biblical Reliability and Canonicity",
+          "rename": "The Historical Reliability of the Bible",
+          "lessonOrder": 0,
+          "points": {
+            "Definition of canon": "Canon means measuring rod: the exclusive list that sets the standard",
+            "Apocryphal and Gnostic literature": "Apocryphal means outside the list, not necessarily heretical",
+            "Textual reliability and the Dead Sea Scrolls": "Absence of evidence is not absence: Marco Polo never mentioned the Great Wall",
+            "Canon differences across Christian traditions": "66, 73, 76-81 or 88 books — but the New Testament never changes",
+            "Historical reliability of the Bible": "Its messy history is the evidence for the Bible, not the problem with it",
+            "The Bible's influence on Western civilization": "Intrinsic human worth is a biblical idea the modern West still runs on"
+          }
+        }
+      ]
+    },
+    {
+      "program": "spiritual",
+      "track": "Christian Apologetics",
+      "course": "God, AI, and the Future of Humanity",
+      "courseRename": "Faith, Science and Technology",
+      "courseOrder": 2,
+      "book": "John Lennox on AI and the image of God",
+      "parts": [
+        {
+          "lesson": "AI, Transhumanism, and the Image of God",
+          "rename": "John Lennox on AI and the Image of God",
+          "lessonOrder": 0,
+          "points": {
+            "Narrow AI versus artificial general intelligence": "Narrow AI does one thing; AGI would do everything, and is still a pipe dream",
+            "Transhumanism and human self-deification": "Transhumanism is ancient self-deification with new tools: cure death, engineer gods",
+            "Humans made in the image of God": "The image of God is what grounds human dignity, and transhumanism cuts it away",
+            "Mathematics as evidence for a word-based universe": "Maths works and DNA is code: the universe looks word-based",
+            "AI worship and the danger of treating machines as conscious": "AI looks omniscient and omnipresent, but it is a zombie god with no consciousness",
+            "Christian faith and the scientific community": "If your brain is an unguided accident, why trust its reasoning about anything"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -242,6 +242,41 @@ already-documented gap a re-filing opens, so a rename reads velocity slightly LO
 current window and heals as the window rolls. Live credit is unaffected: `logResults` resolves
 the doc id through `catalogIdIndex()`.
 
+### 🔴 Renaming a COURSE or LESSON is not a field write either — use `renameScope`
+
+Same defect as the sub-lesson one above, one grain up, and it had been shipping since
+`rename_lesson` existed. `moveTopics` writes track/course/lesson onto the topic ROWS and
+nothing else, but a scope's names are also the key of:
+
+| Keyed by the scope's names | Where |
+|---|---|
+| the lesson's SOURCE | `transcripts.course` + `.lesson` — `getScopeTranscripts` matches on them |
+| the lesson deck / course deck | `flashcards.scopeId` (plus the plain `track/course/lesson` fields) |
+| the study guide | the `studyGuides` **doc id** — `studyGuideId` encodes them |
+
+So renaming a lesson through `moveTopics` kept its questions and its learner progress and
+silently stripped it of **the book it is grounded on**: the next study guide rebuilds from the
+quiz questions instead of the source, and strict-transcript generation has nothing to read.
+That is where §7's *"18 transcript scope-keys match no topic scope at all"* came from — every
+one of them is an old rename. [`renameScope(from, to)`](lib/firestore.js) re-keys all three and
+keeps every doc id; `rename_course`, `rename_lesson` and `move_lesson` all go through it now.
+
+⚠️ **A deck's `scopeId` carries the DECK's topic, not the card's** — `''` for a course- or
+lesson-level deck, the topic only for a topic-level one, because `saveFlashcards` hands
+`flashcardScopeId` the deck scope. Reconstructing it from `card.topic` matches nothing on a
+book deck, so the rename leaves every point card on the old scope and `getFlashcards` — which
+queries `scopeId` — stops finding the deck at all while all its cards sit right there. Caught
+and fixed 2026-09-09, on the Spiritual reshape.
+
+⚠️ **`Mathematics` holds ~900 cards on a LEGACY scopeId convention** (one id per CARD, with the
+topic appended, even at course/lesson level). They are not orphans and must not be "healed" into
+deck-shaped ids — that would merge 444 distinct scopes into a handful of decks. Any repair that
+recomputes `scopeId` has to match an exact expected value, never just disagree-and-overwrite.
+
+`move_topic` still re-files a single sub-lesson with `moveTopics` and does **not** carry a
+topic-level deck or guide with it — a remaining gap, small because a lesson's transcript (the
+expensive thing) is unaffected by a single topic moving.
+
 ### Per-user data lives in two shapes
 
 There is a **legacy owner** (`LEGACY_OWNER`, [firestore.js:48](lib/firestore.js#L48), default
@@ -642,9 +677,12 @@ Use the ops engine, not raw Firestore writes: `runCurriculumEdits()`
 ([server.js:4001](server.js#L4001)) → `moveTopics()` / `renameTopics()`. It preserves doc ids,
 and therefore questions and learner stats.
 
-🔴 **Re-filing and renaming are different writes.** `moveTopics` changes track/course/lesson;
-a SUB-LESSON's name is also the key of its questions, cards and guide, so renaming one goes
-through `renameTopics` (op `rename_topic`, route `POST /api/admin/topics/rename`) — see §3.
+🔴 **Re-filing and renaming are different writes, at BOTH grains.** `moveTopics` only writes
+track/course/lesson onto the topic rows. A SUB-LESSON's name is also the key of its questions,
+cards and guide → `renameTopics` (op `rename_topic`, route `POST /api/admin/topics/rename`). A
+COURSE or LESSON name is also the key of its SOURCE TRANSCRIPT, its decks and its guides →
+`renameScope` (used by `rename_course`, `rename_lesson` and `move_lesson`). Both keep every doc
+id. See §3 — getting this wrong strips a lesson of the book it teaches from.
 
 Admin UI: Academy Admin → **Curriculum** → "Edit with AI" (one of that station's three modes,
 beside "From my sources" and "Build with AI").
@@ -1512,6 +1550,51 @@ default; the names it applies are in `scripts/philosophy-points.json`).
 
 🔴 **Do not "improve" this by making every program's names sentences.** The split is the point,
 and it is the same category flag the deck shape already uses.
+
+### 🔴 A reading program's SHAPE is a shelf, not a concept map (fixed 2026-09-09)
+
+The naming fix above settled what a sub-lesson is *called*. This is the other half — where the
+**book sits** — and it is the one that silently disabled a feature.
+
+**Symptom:** *The Charisma Myth* and *Do Hard Things* had no book deck and could never get one.
+All three Spiritual courses were named half-book, half-theme.
+
+**Cause:** Philosophy was running two shapes at once, from its two authoring doors:
+
+| Door | What it produced |
+|---|---|
+| auto-file ingest (`classifyTranscript`) | course = theme, **lesson = the book** ✅ |
+| the corpus planner (`planFromSources`) | **course = the book**, lessons = concept clusters ❌ |
+
+The planner is not misbehaving — its strongest instruction is *"the sources are MATERIAL, not the
+STRUCTURE … NEVER name a track, course, lesson or topic after a source"*, which is exactly right
+for a career curriculum and exactly backwards for a shelf, where the source **is** the unit of
+study. And the second shape is not a style difference: `buildBookDeck` refuses anything but
+`scope.level === 'lesson'` (*"the lesson is the book"*), so a book filed as a course cannot
+produce the title card the whole reading program exists for.
+
+**The rule, now enforced by `scopeShapeRule(reading)` ([lib/gemini.js](lib/gemini.js)):**
+
+> **COURSE** is always a THEME · **LESSON** is always one BOOK — or one PART of a long book,
+> named with the book (`The Charisma Myth — Presence`) · **SUB-LESSON** is one key point, as a
+> claim. 4–8 points per lesson, because that is one recall card's worth.
+
+🔴 **It is injected AFTER the rule it overrides**, never before — a model reading top-to-bottom
+has to meet the exception after the general case. Same discipline as `deepBlock` (§7), and
+[`lib/_naming_test.js`](lib/_naming_test.js) asserts the ordering: moving the interpolation
+earlier still passes `node --check` and silently restores the bug. It returns `''` for a career
+program, so those prompts are byte-identical.
+
+**Why not just drop the course level and go Track → Book?** Two reasons, both hard.
+`upsertTopic` requires all four of track/course/lesson/topic — course and lesson are *fields*,
+not documents, so an empty course is not expressible without forking the model away from the six
+career programs. And the course is the only place a THEME lives: it is the scope behind "quiz me
+across all my Stoicism books", and what keeps a track browsable once it holds thirty books.
+
+The 88 sub-lessons, 14 lessons and 2 courses that shipped the other way were repaired by
+[scripts/reshape-growth-books.mjs](scripts/reshape-growth-books.mjs) (dry run by default; names in
+`scripts/growth-books.json`), and the decks that had never been buildable by
+[scripts/build-book-decks.mjs](scripts/build-book-decks.mjs).
 
 ### 🔴 The Academy's question prompts were hardcoded to "a working digital marketer"
 
